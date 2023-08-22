@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 21:30:50 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 03:03:00 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/22 03:16:04 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,21 @@
 # include "Libs/Libft/libft.h"
 # include "Libs/MiniLibx/include/MLX42/MLX42.h"
 
-# define TILESIZE 1
 # define SCREEN_WIDTH 1600
 # define SCREEN_HEIGHT 1200
 # define GAME_NAME "🤡 Bozo - The comeback of the invisible enemy 🤡"
 
 ////////////////////////////
 // 		  Structs	
-////////////////////////////
-typedef struct {//					Coords
+////////////////////////////		Coords
+typedef struct
+{
 	float x;
 	float y;
 }	s_coord;
-
-typedef struct {//					Game Data MLX Struct
+///////////////////////////			Game Data MLX Struct
+typedef struct
+{
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	
@@ -41,20 +42,22 @@ typedef struct {//					Game Data MLX Struct
 	uint8_t		map[21][20];	// map**
 	
 }	s_gamedata;
-
-typedef struct {//					Player Struct
+///////////////////////////			Player Struct
+typedef struct
+{
 	s_coord 	Coord;
 	uint8_t 	fov;
 	float 		angle;
 	float 		movementSpeed;
 	float 		rotationSpeed;
 }	s_playerunit;
-
-typedef struct {//					Textures Struct
+///////////////////////////			Textures Struct
+typedef struct {
 	mlx_texture_t	*test;
 }	s_texture;
-
-typedef struct {//					Colors Struct
+///////////////////////////			Colors Struct
+typedef struct
+{
 	uint32_t 	minimapwall;
 	uint32_t 	minimapbackground;
 	uint32_t 	minimapplayer;
@@ -63,6 +66,8 @@ typedef struct {//					Colors Struct
 	uint32_t 	gamewall;	// remove?
 	uint32_t 	gameroof;
 }	s_colors;
+///////////////////////////
+
 ////////////////////////////
 // 		   Enums
 ////////////////////////////
@@ -83,7 +88,8 @@ void			gameloop();//
 ////////////////////////////
 
 //		Parsing
-bool			map_isbad();
+bool			map_isbad(char *map);
+
 //		Errors
 bool			argc_isbad(int argv);
 
