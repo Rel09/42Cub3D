@@ -1,0 +1,6 @@
+cub3d
+.vscode/
+/obj/
+/Libs/Libft/obj/
+/Libs/Libft/include/
+/Libs/MiniLibx/build/
