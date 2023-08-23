@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 06:43:51 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 18:47:56 by dpotvin          ###   ########.fr       */
+/*   Created: 2023/08/22 22:10:34 by dpotvin           #+#    #+#             */
+/*   Updated: 2023/08/22 22:10:54 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
-char	*ft_strjoin(char const *s1, char const *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	char	*s;
-	char	*start;
+	int i;
 
-	s = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!s)
-		return (0);
-	start = s;
-	while (*s1)
-		*s++ = *s1++;
-	while (*s2)
-		*s++ = *s2++;
-	*s = 0;
-	return (start);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

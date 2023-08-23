@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 06:43:51 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 18:47:56 by dpotvin          ###   ########.fr       */
+/*   Created: 2023/08/22 20:51:15 by dpotvin           #+#    #+#             */
+/*   Updated: 2023/08/22 22:03:20 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../../cub3d.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	char	*s;
-	char	*start;
+	int i;
+	int j;
 
-	s = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!s)
-		return (0);
-	start = s;
-	while (*s1)
-		*s++ = *s1++;
-	while (*s2)
-		*s++ = *s2++;
-	*s = 0;
-	return (start);
+	i = 0;
+	while (s1[i])
+		i++;
+	j = 0;
+	while (s2[j] && j < n)
+		s1[i++] = s2[j++];
+	s1[i] = 0;
+	return (s1);
 }

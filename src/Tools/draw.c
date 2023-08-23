@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 22:33:42 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 02:18:48 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/22 23:00:13 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,9 @@ void drawPlayer()
 
 void raycasting()
 {
-    int feature_aiming_mode = 50;
+    int feature_aiming_mode = 0;
 	
-	int precision = 100;
+	int precision = 300;
     float angleRad = degreesToRadians(getplayerunit()->angle);
     float halfFovAngleRad = degreesToRadians(getplayerunit()->fov / 2.0f);
     float cameraPlaneDist = (SCREEN_WIDTH + feature_aiming_mode / 2.0f) / tan(halfFovAngleRad);
@@ -154,9 +154,11 @@ void raycasting()
             rayY += raySin;
             wall = getgamedata()->map[(int)(rayX)][(int)(rayY)] == 1;
         }
-		
+
         int wallHeight = (cameraPlaneDist / (get_distance(getplayerunit()->Coord, (s_coord){rayX, rayY}) * cos(rayAngle - angleRad)));
+		
 		bool wallIsVertical = false;
+		
 		// Display |
 		for (int height = 0; height < SCREEN_HEIGHT; height++)
 		{
@@ -179,7 +181,6 @@ void raycasting()
 				mlx_put_pixel(getgamedata()->img, width, height, texture_to_pixel(gettexture()->test, textureX, textureY));
 			}
 
-			
 			// Floor
 			else
 			{
@@ -189,21 +190,3 @@ void raycasting()
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

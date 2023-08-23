@@ -14,7 +14,13 @@ FILES = cub3d \
 		src/Tools/math \
 		src/Tools/tiles \
 		src/Tools/movement \
+		src/Tools/ft_strcmp \
+		src/Tools/ft_isspace \
+		src/Tools/ft_strncat \
 		src/Tools/rgbatopixel \
+		src/Tools/ft_charncat \
+		src/Tools/ft_iskeyword \
+		src/Parsing/openfile \
 		src/Parsing/readfile \
 		src/Errors/init
 
@@ -47,7 +53,7 @@ makedir:
 	@mkdir -p ./obj/src/Errors
 
 run: all
-	@./$(NAME)
+	@./$(NAME) bozo.cub
 
 $(OBJS_DIR)%.o: %.c
 	@${CC} ${FLAGS} ${CFLAGS} -c $< -o $@
