@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gameloop.c                                         :+:      :+:    :+:   */
+/*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 18:39:34 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/25 03:55:05 by dpotvin          ###   ########.fr       */
+/*   Created: 2023/08/23 19:58:09 by dpotvin           #+#    #+#             */
+/*   Updated: 2023/08/23 19:58:18 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../../cub3d.h"
 
-// Game Loop
-void gameloop()
+char	*ft_strtok(char *str, const char delim)
 {
-		movePlayer();
-        raycasting();
-        drawMiniMap();
-        drawPlayer();
+	static char	*stock;
+	char		*output;
+	bool		found;
 
+	if (str)
+		stock = str;
+	output = 0;
+	found = false;
+	while (*stock)
+	{
+		if (!found && !(*stock == delim))
+		{
+			found = true;
+			output = stock;
+		}
+		else if (found && *stock == delim)
+		{
+			*stock = 0;
+			stock++;
+			break ;
+		}
+		stock++;
+	}
+	return (output);
 }

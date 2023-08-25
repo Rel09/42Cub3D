@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 22:33:42 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 23:00:13 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/25 04:38:03 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void drawLineOnMinimap(float x1, float y1, float x2, float y2)
     float y = y1;
 
     for (int i = 0; i < steps; i++) {
-        if (x >= 0 && x < SCREEN_WIDTH / 4 && y >= 0 && y < SCREEN_HEIGHT / 4) {
+        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT) {
             mlx_put_pixel(getgamedata()->img, x, y, getcolor()->minimapplayerangleline); // Red color for the line
         }
         x += xIncrement;
@@ -64,14 +64,13 @@ void drawMiniMap()
     }
 
     // Draw Grid
-    for (int i = 0; i < map_x; i++) {
-        for (int j = 0; j < map_y; j++) {
+    for (int i = 0; i < map_y; i++) {
+        for (int j = 0; j < map_x; j++) {
 
-            if (getgamedata()->map[i][j] != 1)
+            if (getgamedata()->nmap[i][j] != 1)
                 continue;
-
-            int xo = i * tilesize_x;
-            int yo = j * tilesize_y;
+            int xo = j * tilesize_x;
+            int yo = i * tilesize_y;
             drawSquare(xo, yo, tilesize_x, tilesize_y);
 
         }
@@ -86,8 +85,8 @@ void drawPlayer()
     int map_y = getgamedata()->map_y;
 
     // Calculate the scaling factors for both x and y directions using tilesize
-    float scaleX = (float)(SCREEN_WIDTH) / (4 * map_x);
-    float scaleY = (float)(SCREEN_HEIGHT) / (4 * map_y);
+    float scaleX = (SCREEN_WIDTH) / (4 * map_x);
+    float scaleY = (SCREEN_HEIGHT) / (4 * map_y);
 
     // Get the player's coordinates
     float playerX = getplayerunit()->Coord.x;
@@ -103,24 +102,24 @@ void drawPlayer()
     // Draw the player's position on the minimap
     for (int i = -playerSize; i <= playerSize; i++) {
         for (int j = -playerSize; j <= playerSize; j++) {
-            dx = i;
-            dy = j;
+            dx = j;
+            dy = i;
             if (sqrt(dx * dx + dy * dy) <= playerSize) {
                 float x = xo + i;
                 float y = yo + j;
-                if (x >= 0 && x < SCREEN_WIDTH / 4 && y >= 0 && y < SCREEN_HEIGHT / 4) {
+                if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT) {
                     mlx_put_pixel(getgamedata()->img, x, y, getcolor()->minimapplayer);
-                }
+            	}
             }
         }
     }
 
     // Draw the direction line (assuming you have a drawLineOnMinimap function)
-    float angleDeg = getplayerunit()->angle;
+	
     float lineLength = 10.0f; // Length of the direction line in pixels (you can adjust this as needed)
 
     // Convert the angle to radians
-    float angleRad = angleDeg * M_PI / 180.0f;
+    float angleRad = degreesToRadians(getplayerunit()->angle);
 
     // Calculate the endpoint of the line based on the player's angle relative to the player's position
     float endX = xo + lineLength * cos(angleRad);
@@ -133,12 +132,11 @@ void drawPlayer()
 void raycasting()
 {
     int feature_aiming_mode = 0;
-	
-	int precision = 300;
+    int precision = 300;
     float angleRad = degreesToRadians(getplayerunit()->angle);
     float halfFovAngleRad = degreesToRadians(getplayerunit()->fov / 2.0f);
     float cameraPlaneDist = (SCREEN_WIDTH + feature_aiming_mode / 2.0f) / tan(halfFovAngleRad);
-	// Display -
+
     for (int width = 0; width < SCREEN_WIDTH; width++)
     {
         float rayAngle = atan2(SCREEN_WIDTH / 2.0f - width + 0.5, cameraPlaneDist) + angleRad;
@@ -148,45 +146,87 @@ void raycasting()
         float raySin = sin(rayAngle) / precision;
 
         bool wall = false;
+        bool wallIsVertical = true;
+
         while (!wall)
         {
             rayX += rayCos;
             rayY += raySin;
-            wall = getgamedata()->map[(int)(rayX)][(int)(rayY)] == 1;
+            wall = getgamedata()->nmap[(int)(rayY)][(int)(rayX)] == 1;
+            if (wall)
+            {
+                wallIsVertical = getgamedata()->nmap[(int)(rayY)][(int)(rayX - rayCos)] != 1;
+            }
+        }
+
+        int textureIndex = -1;
+
+        // Determine the texture index based on the ray's angle
+        if (wallIsVertical)
+        {
+            if (rayCos > 0)
+                textureIndex = 2; // East-facing wall
+            else
+                textureIndex = 3; // West-facing wall
+        }
+        else
+        {
+            if (raySin > 0)
+                textureIndex = 1; // South-facing wall
+            else
+                textureIndex = 0; // North-facing wall
         }
 
         int wallHeight = (cameraPlaneDist / (get_distance(getplayerunit()->Coord, (s_coord){rayX, rayY}) * cos(rayAngle - angleRad)));
-		
-		bool wallIsVertical = false;
-		
-		// Display |
-		for (int height = 0; height < SCREEN_HEIGHT; height++)
+
+       for (int height = 0; height < SCREEN_HEIGHT; height++)
 		{
-			// Roof
-			if (height < (SCREEN_HEIGHT - wallHeight) / 2)
-				mlx_put_pixel(getgamedata()->img, width, height, getcolor()->gameroof);
+			// Calculate the texture Y coordinate
+			float textureY = (height - (SCREEN_HEIGHT - wallHeight) / 2) / (float)wallHeight * gettexture()->textures[0]->height;
 
 			// Wall
-			else if (height >= (SCREEN_HEIGHT - wallHeight) / 2 && height < (SCREEN_HEIGHT + wallHeight) / 2)
+			if (height >= (SCREEN_HEIGHT - wallHeight) / 2 && height < (SCREEN_HEIGHT + wallHeight) / 2)
 			{
 				float textureX;
-
 				if (wallIsVertical)
-					textureX = (rayX - floor(rayX)) * gettexture()->test->width;
-				else {
-					textureX = (rayY - floor(rayY)) * gettexture()->test->width;
-					rayX += rayCos;
+				{
+					if (textureIndex == 0)
+					{
+						textureX = (rayY - floor(rayY)) * gettexture()->textures[textureIndex]->width;
+						textureX = gettexture()->textures[textureIndex]->width - textureX - 1.0;
+					}
+					else if (textureIndex == 2)
+						textureX = (1.0 - (rayY - floor(rayY))) * gettexture()->textures[textureIndex]->width;
+					else
+						textureX = (rayY - floor(rayY)) * gettexture()->textures[textureIndex]->width;
 				}
-				float textureY = (height - (SCREEN_HEIGHT - wallHeight) / 2) / (float)wallHeight * gettexture()->test->height;
-				mlx_put_pixel(getgamedata()->img, width, height, texture_to_pixel(gettexture()->test, textureX, textureY));
-			}
+				else
+				{
+					if (textureIndex == 0 )
+					{
+						textureX = (rayX - floor(rayX)) * gettexture()->textures[textureIndex]->width;
+						textureX = gettexture()->textures[textureIndex]->width - textureX - 1.0;
+					}
+					else
+					{
+						textureX = (rayX - floor(rayX)) * gettexture()->textures[textureIndex]->width;
+					}
+				}
 
+				mlx_put_pixel(getgamedata()->img, width, height, texture_to_pixel(gettexture()->textures[textureIndex], textureX, textureY));
+			}
+			// Roof
+			else if (height < (SCREEN_HEIGHT - wallHeight) / 2)
+			{
+				mlx_put_pixel(getgamedata()->img, width, height, gettexture()->rgb[1]);
+			}
 			// Floor
 			else
 			{
-				mlx_put_pixel(getgamedata()->img, width, height, getcolor()->gamefloor);
+				mlx_put_pixel(getgamedata()->img, width, height, gettexture()->rgb[0]);
 			}
 		}
-
     }
 }
+
+

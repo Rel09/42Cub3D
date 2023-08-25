@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 23:26:59 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 02:30:12 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/25 04:46:02 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ bool	isKeyDown(int key)
 
 void movePlayer()
 {
-    bool shift = isKeyDown(MLX_KEY_LEFT_SHIFT);
-    if (shift) 
-        getplayerunit()->movementSpeed = 15.0;
-    else
-        getplayerunit()->movementSpeed = 5.0;
-    
+    getplayerunit()->movementSpeed = 5.0;
     float deltaTime = getgamedata()->mlx->delta_time;
     float angleRad = getplayerunit()->angle * (M_PI / 180.0);
     float movementSpeed = getplayerunit()->movementSpeed * deltaTime;
@@ -57,15 +52,44 @@ void movePlayer()
         }
     }
     
-    // Left rotation
+    // Strafe Left
     if (isKeyDown(MLX_KEY_D))
+    {
+        // Calculate the strafe direction by rotating 90 degrees to the left.
+        float strafeAngleRad = angleRad - (M_PI / 2.0);
+        float newXFloat = getplayerunit()->Coord.x + cos(strafeAngleRad) * getplayerunit()->movementSpeed * deltaTime;
+        float newYFloat = getplayerunit()->Coord.y + sin(strafeAngleRad) * getplayerunit()->movementSpeed * deltaTime;
+        if (isValidTile((s_coord){newXFloat, newYFloat}))
+        {
+            getplayerunit()->Coord.x = newXFloat;
+            getplayerunit()->Coord.y = newYFloat;
+        }
+    }
+
+    // Strafe Right
+    else if (isKeyDown(MLX_KEY_A))
+    {
+        // Calculate the strafe direction by rotating 90 degrees to the right.
+        float strafeAngleRad = angleRad + (M_PI / 2.0);
+        float newXFloat = getplayerunit()->Coord.x + cos(strafeAngleRad) * getplayerunit()->movementSpeed * deltaTime;
+        float newYFloat = getplayerunit()->Coord.y + sin(strafeAngleRad) * getplayerunit()->movementSpeed * deltaTime;
+        if (isValidTile((s_coord){newXFloat, newYFloat}))
+        {
+            getplayerunit()->Coord.x = newXFloat;
+            getplayerunit()->Coord.y = newYFloat;
+        }
+    }
+	
+
+    // Left rotation
+    if (isKeyDown(MLX_KEY_RIGHT))
     {
         getplayerunit()->angle -= getplayerunit()->rotationSpeed * deltaTime;
         getplayerunit()->angle = fmodf(getplayerunit()->angle, 360.0f);
     }
 
     // Right rotation
-    else if (isKeyDown(MLX_KEY_A))
+    else if (isKeyDown(MLX_KEY_LEFT))
     {
         getplayerunit()->angle += getplayerunit()->rotationSpeed * deltaTime;
         getplayerunit()->angle = fmodf(getplayerunit()->angle, 360.0f);  

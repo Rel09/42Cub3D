@@ -6,42 +6,26 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 02:21:07 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 22:59:49 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/24 03:32:53 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
 // Check if the file is .cub
-static bool	is_format_supported(char *map)
-{
+bool	is_file_format_supported(char *map, char *format) {
 	int	i;
+	int	len;
 
+	len = ft_strlen(format);
 	i = ft_strlen(map);
-	if (i >= 5 && !ft_strncmp(&map[i - 4], ".cub", 4))
+	if (i >= len + 1 && !ft_strncmp(&map[i - 4], format, ft_strlen(format)))
 		return (true);
-	printf("[-] Error\n[-] Map Format not supported\n");
 	return (false);
 }
 
-// Check if the file exist
-static bool	does_file_exist(char *map)
-{
-	int fd;
-	
-	fd = open(map, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("[-] Error\n[-] Map doesn't exist\n");
-		return (false);
-	}
-	close(fd);
-	return (true);
-}
-
 // Join the two string together
-static char	*ft_join(char *buffer, char *buf)
-{
+static char	*ft_join(char *buffer, char *buf) {
 	char	*temp;
 
 	temp = ft_strjoin(buffer, buf);
@@ -50,8 +34,7 @@ static char	*ft_join(char *buffer, char *buf)
 }
 
 // Read the File and store the data in an array
-static char	*open_file(char *map)
-{
+static char	*open_file(char *map) {
 	int		fd;
 	int		buffersize;
 	int		byte_read;
@@ -80,20 +63,37 @@ static char	*open_file(char *map)
 	return (temp);
 }
 
+// Check if the file exist
+bool	does_file_exist(char *file) {
+	int fd;
+	
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (false);
+	close(fd);
+	return (true);
+}
+
 // Do pretty much all the parsing
-bool	map_isbad(char *map)
-{
+bool	map_isbad(char *map) {
 	char	*mapcontent;
 	
-	if (!is_format_supported(map) || !does_file_exist(map))
+	if (!is_file_format_supported(map, ".cub"))
+	{
+		printf("[-] Error\n[-] Map Format not supported\n");
 		return (true);
+	}
+	if (!does_file_exist(map))
+	{
+		printf("[-] Error\n[-] Map [%s] doesn't exist\n", map);
+		return (true);
+	}
 	mapcontent = open_file(map);
-	if (!readfile(mapcontent))
+	if (!readfile(mapcontent) || !read_rgb_color() || !open_png_files() || !readmap(mapcontent))
+	{
+		free(mapcontent);
 		return (true);
-	// Check if all the textures file and RGB color are fine
-	
-	// Parse the actual map
-
+	}
 	free(mapcontent);
 	return (false);
 }

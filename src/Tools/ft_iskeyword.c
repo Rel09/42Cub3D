@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:16:48 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 22:43:17 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:41:21 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,5 @@ uint8_t ft_iskeyword(char *str)
 			return (ft_strlen(word[i]));
 		i++;
 	}
-	return (false);
-}
-
-// Add the Map Data to Our Struct
-bool	add_to_data(char *data, char *keyword)
-{
-	char	**temp;
-
-	temp = 0;
-	if (!ft_strcmp(keyword, "NO"))
-		temp = &getgamedata()->s_mapfile.NO;
-	else if (!ft_strcmp(keyword, "SO"))
-		temp = &getgamedata()->s_mapfile.SO;
-	else if (!ft_strcmp(keyword, "WE"))
-		temp = &getgamedata()->s_mapfile.WE;
-	else if (!ft_strcmp(keyword, "EA"))
-		temp = &getgamedata()->s_mapfile.EA;
-	else if (!ft_strcmp(keyword, "F"))
-		temp = &getgamedata()->s_mapfile.F;
-	else if (!ft_strcmp(keyword, "C"))
-		temp = &getgamedata()->s_mapfile.C;
-	if (!*temp)
-	{
-		*temp = ft_strdup(data);
-		return (true);
-	}
-	printf("[-] Error\n[-] Duplicate Data in Map: [%s]\n", keyword);
 	return (false);
 }

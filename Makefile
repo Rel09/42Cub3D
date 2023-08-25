@@ -14,14 +14,19 @@ FILES = cub3d \
 		src/Tools/math \
 		src/Tools/tiles \
 		src/Tools/movement \
+		src/Tools/ft_strtok \
 		src/Tools/ft_strcmp \
 		src/Tools/ft_isspace \
 		src/Tools/ft_strncat \
 		src/Tools/rgbatopixel \
 		src/Tools/ft_charncat \
 		src/Tools/ft_iskeyword \
+		src/Tools/ft_isnumeric \
+		src/Parsing/readmap \
 		src/Parsing/openfile \
 		src/Parsing/readfile \
+		src/Parsing/parsemap \
+		src/Parsing/floodfill \
 		src/Errors/init
 
 CYAN="\033[1;36m"
@@ -53,7 +58,7 @@ makedir:
 	@mkdir -p ./obj/src/Errors
 
 run: all
-	@./$(NAME) bozo.cub
+	@./$(NAME) ./src/Maps/bozo.cub
 
 $(OBJS_DIR)%.o: %.c
 	@${CC} ${FLAGS} ${CFLAGS} -c $< -o $@
@@ -80,7 +85,7 @@ fclean:
 re: fclean all
 
 leak: all
-	@valgrind --leak-check=full --track-fds=no --show-leak-kinds=all --trace-children=no ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./src/Maps/bozo.cub
 	@${RM} -r cub3d.dSYM
 
 .PHONY: all clean fclean re lib run leak
