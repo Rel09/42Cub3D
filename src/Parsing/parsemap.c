@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 23:59:06 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/24 03:45:36 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	get_map_row(char *map)
 {
 	int	i;
-	int biggest_count;
+	int	biggest_count;
 	int	current_count;
 
 	i = 0;
@@ -30,7 +30,7 @@ int	get_map_row(char *map)
 				biggest_count = current_count;
 			current_count = 0;
 			i++;
-			continue;
+			continue ;
 		}
 		current_count++;
 		i++;
@@ -39,7 +39,7 @@ int	get_map_row(char *map)
 }
 
 // Return the height of the Map
-int get_map_height(char *map)
+int	get_map_height(char *map)
 {
 	int	i;
 	int	count;
@@ -56,7 +56,7 @@ int get_map_height(char *map)
 }
 
 // Hard coded Convertion, because why not
-static uint8_t convert_char(char c)
+static uint8_t	convert_char(char c)
 {
 	if (c == '0' || ft_isspace(c))
 		return (0);
@@ -76,17 +76,15 @@ static uint8_t convert_char(char c)
 // Just display the map
 void	display_map(uint8_t **map, int y, int x)
 {
-	int		i;
-	int		j;
+	int		i[2];
 	uint8_t	c;
 
-	i = 0;
-	j = 0;
-	while (i < y)
+	ft_bzero(i, sizeof(i));
+	while (i[0] < y)
 	{
-		while (j < x)
+		while (i[1] < x)
 		{
-			c = map[i][j];
+			c = map[i[0]][i[1]];
 			if (c == 1)
 				printf(BLACK_BG PINK_TEXT"█"RESET, c);
 			else if (c >= 2 && c <= 5)
@@ -97,27 +95,29 @@ void	display_map(uint8_t **map, int y, int x)
 				printf(GREEN_BG" "RESET);
 			else
 				printf(BLACK_BG" "RESET);
-			j++;
+			i[1]++;
 		}
-		j = 0;
-		i++;
+		i[1] = 0;
+		i[0]++;
 		printf("\n");
 	}
 }
 
 // Transform 1D Char array to 2D uint8_t array
-void convert_map(char *mapcontent) {
-    int i;
-    int j;
-    int k;
+void	convert_map(char *mapcontent)
+{
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
 	k = 0;
-	while (mapcontent[i]) {
+	while (mapcontent[i])
+	{
 		if (mapcontent[i] != '\n')
 		{
-			getgamedata()->nmap[j + 1][k + 1] = convert_char(mapcontent[i]);
+			game()->nmap[j + 1][k + 1] = convert_char(mapcontent[i]);
 			k++;
 		}
 		else
@@ -128,4 +128,3 @@ void convert_map(char *mapcontent) {
 		i++;
 	}
 }
-

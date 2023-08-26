@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 00:03:59 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/24 03:56:06 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,15 @@
 
 int main(int argc, char **argv)
 {
-	/*	Menu with map checking
-	if (argc == 1)
-	{
-		
-	}
-	*/
-	
 	if (argc_isbad(argc) || map_isbad(argv[1]))
 	{
 		// free
 		return (1);
 	}
 
-	
-	
-	mlx_loop_hook(getgamedata()->mlx, gameloop, 0);
-	mlx_loop(getgamedata()->mlx);
-	mlx_terminate(getgamedata()->mlx);
+	mlx_loop_hook(game()->mlx, gameloop, 0);
+	mlx_loop(game()->mlx);
+	mlx_terminate(game()->mlx);
+	// free
 	return (0);
 }

@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tiles.c                                            :+:      :+:    :+:   */
+/*   ft_bzero2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 23:27:02 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
+/*   Created: 2023/08/25 23:05:12 by dpotvin           #+#    #+#             */
+/*   Updated: 2023/08/25 23:06:08 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-// Return true if Tile is valid
-bool	isvalidtile(s_coord coord)
+void	ft_bzero2(void *s, size_t n, void *s1, size_t n1)
 {
-	int	mapx;
-	int	mapy;
+	unsigned char	*str;
+	unsigned char	*str1;
 
-	mapx = coord.x;
-	mapy = coord.y;
-	if (mapx >= 0 && mapx < game()->map_x && mapy >= 0
-		&& mapy < game()->map_y)
+	str = s;
+	while (n > 0)
 	{
-		if (game()->nmap[mapy][mapx] == 0)
-			return (true);
+		*str++ = '\0';
+		n--;
 	}
-	return (false);
+	str1 = s1;
+	while (n1 > 0)
+	{
+		*str1++ = '\0';
+		n1--;
+	}
 }

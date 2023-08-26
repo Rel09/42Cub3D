@@ -6,14 +6,14 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 21:16:42 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/24 23:51:18 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
 // Remove all the already parsed data
-static char *cleaned_up_file(char *map)
+static char	*cleaned_up_file(char *map)
 {
 	int	i;
 	int	index;
@@ -28,59 +28,30 @@ static char *cleaned_up_file(char *map)
 		{
 			while (map[index] && map[index] != '\n')
 				index++;
-
 			if (map[index] == '\n')
 				map = &map[index + 1];
 			else
 				map = &map[index];
-				
 		}
 		i++;
 	}
 	return (map);
 }
 
-// Count all the char in a string, to remove if non-pertinent
-static int	count_char(char *str)
+// Updated remove_empty_lines function
+static char	*remove_empty_lines(char *map)
 {
-	int	i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] >= 33 && str[i] <= 126)
-		{
-			count++;
-			i++;
-		}
-		i++;
-	}
-	return (count);
-}
-
-// Remove the additional useless lines
-static char *remove_empty_lines(char *map)
-{
-	char temp[1000];
-	int	i;
-	int	count;
+	char	temp[1000];
+	int		i;
+	int		count;
 
 	i = 0;
 	count = 0;
 	if (!map[i])
 		return (0);
-
-	while (count == 0)
+	while (!count)
 	{
-		ft_bzero(temp, 1000);
-		while (map[i] && map[i] != '\n')
-			ft_charncat(temp, map[i++]);
-		if (!map[i])
-			return (0);
-		i++;
-		count = count_char(temp);
+		parse_mapfile0(map, temp, &i, &count);
 		if (!count)
 		{
 			map = &map[i];
@@ -88,21 +59,15 @@ static char *remove_empty_lines(char *map)
 		}
 	}
 	while (count > 0)
-	{
-		ft_bzero(temp, 1000);
-		while (map[i] && map[i] != '\n')
-			ft_charncat(temp, map[i++]);
-		i++;
-		count = count_char(temp);
-	}
-	map[i - 2] = 0;
+		parse_mapfile1(map, temp, &i, &count);
+	map[i - 1] = 0;
 	return (map);
 }
 
 // Allocate uint8_t** for the map using CALLOC
-uint8_t **allocate_map(int x, int y)
+uint8_t	**allocate_map(int x, int y)
 {
-	uint8_t **t;
+	uint8_t	**t;
 	int		i;
 	int		j;
 
@@ -110,38 +75,34 @@ uint8_t **allocate_map(int x, int y)
 	j = 0;
 	t = ft_calloc(x, sizeof(uint8_t *));
 	if (!t)
+		return (readfile_error_6());
+	while (i < x)
 	{
-		printf("[-] Error\n[-] Couldnt Malloc the Map [0]\n");
-		return (0);
-	}
-	while (i < x) {
 		t[i] = ft_calloc(y, sizeof(uint8_t));
 		if (!t[i])
 		{
 			printf("[-] Error\n[-] Couldnt Malloc the Map [1]\n");
 			while (j < i)
 				free(t[j++]);
-            free(t);
+			free(t);
 			return (0);
 		}
 		i++;
 	}
-    return (t);
+	return (t);
 }
-
 
 // Return us the Map as uint8_t**
 bool	readmap(char *mapcontent)
 {
 	mapcontent = cleaned_up_file(mapcontent);
 	mapcontent = remove_empty_lines(mapcontent);
-	getgamedata()->map_x = get_map_row(mapcontent) + 2;
-	getgamedata()->map_y = get_map_height(mapcontent) + 2;
-	
-	getgamedata()->nmap = allocate_map(getgamedata()->map_y, getgamedata()->map_x);
-	if (!getgamedata()->nmap)
+	game()->map_x = get_map_row(mapcontent) + 2;
+	game()->map_y = get_map_height(mapcontent) + 2;
+	(game()->nmap) = allocate_map(game()->map_y,
+			game()->map_x);
+	if (!game()->nmap)
 		return (false);
-	
 	convert_map(mapcontent);
 	if (!detail_parser())
 	{
@@ -150,7 +111,6 @@ bool	readmap(char *mapcontent)
 	}
 	if (can_map_be_flooded())
 		return (false);
-	
 	printf(BLACK_BG PINK_TEXT"[+] Map Loaded\x1B[0m\n");
 	return (true);
 }

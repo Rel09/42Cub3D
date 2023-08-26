@@ -6,14 +6,14 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:16:48 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/23 17:41:21 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 00:42:33 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
 // Return the length of the keyword if its a keyword, 0 otherwise
-uint8_t ft_iskeyword(char *str)
+uint8_t	ft_iskeyword(char *str)
 {
 	char	*word[6];
 	int		i;

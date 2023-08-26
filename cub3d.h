@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 21:30:50 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/25 04:30:10 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 03:53:53 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define BLUE_BG	"\x1B[44m"
 # define RESET		"\x1B[0m"
 
-# define SCREEN_WIDTH 1000
-# define SCREEN_HEIGHT 1000
+# define WIDTH 1000
+# define HEIGHT 1000
 # define GAME_NAME "🤡 BozoLand 🤡"
 
 ////////////////////////////
@@ -74,11 +74,31 @@ typedef struct {
 ///////////////////////////			Colors Struct
 typedef struct
 {
-	uint32_t 	minimapwall;
-	uint32_t 	minimapbackground;
-	uint32_t 	minimapplayer;
-	uint32_t 	minimapplayerangleline;
+	uint32_t 	mn_wall;
+	uint32_t 	mn_bckgrnd;
+	uint32_t 	mn_player;
+	uint32_t 	mn_fovline;
 }	s_colors;
+///////////////////////////			Raycasting Struct
+typedef struct {
+	int		w;
+	int		h;
+	
+	float	anglerad;
+	float	fovrad;
+	float	camplane;
+	float	rayangle;
+	float	rayx;
+	float	rayy;
+	float	raycos;
+	float	raysin;
+	bool	wall;
+	bool	w_isvertical;
+	uint8_t	txt_i;
+	int		w_height;
+}	s_raycast;
+
+
 ///////////////////////////
 
 ////////////////////////////
@@ -88,10 +108,10 @@ typedef struct
 ////////////////////////////
 // 		Data Functions	
 ////////////////////////////
-s_playerunit	*getplayerunit();
-s_gamedata		*getgamedata();
+s_playerunit	*unit();
+s_gamedata		*game();
 s_texture		*gettexture();
-s_colors		*getcolor();
+s_colors		*color();
 ////////////////////////////
 // 		Game Functions	
 ////////////////////////////
@@ -115,26 +135,40 @@ void			convert_map(char *mapcontent);
 bool			add_to_data(char *data, char *keyword);
 void			display_map(uint8_t **map, int y, int x);
 bool			is_file_format_supported(char *map, char *format);
+void			parse_mapfile0(char *map, char *temp, int *index, int *count);
+void			parse_mapfile1(char *map, char *temp, int *index, int *count);
 
 //		Errors
 bool			argc_isbad(int argv);
+bool			readfile_error_0(void);
+bool			readfile_error_1(char *value);
+bool			readfile_error_2(int value);
+bool			readfile_error_3(void);
+bool			readfile_error_4(int count, char *temp);
+bool			readfile_error_5(void);
+bool			readfile_error_6(void);
+bool			open_png_error_0(void);
+bool			open_png_error_1(void);
+bool			open_png_error_2(char *str);
+bool			open_png_error_3(char *str);
 
 //		Movement
 bool			isKeyDown(int key);
 void			movePlayer();
 
 // 		Minimap
-void    		drawMiniMap();
-bool 			isValidTile(s_coord coord);
+void    		drawminimap();
+bool 			isvalidtile(s_coord coord);
 
 //		Drawing
 void 			raycasting();
-void			drawPlayer();
+void			drawplayer();
+uint32_t 		rgba_to_pixels(int *a);
 uint32_t		texture_to_pixel(mlx_texture_t* texture, int x, int y);
 uint32_t		rgba_to_pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 //		Maths
-double 			degreesToRadians(double degrees);
+double 			degreetoradians(double degrees);
 float 			get_distance(s_coord a, s_coord b);
 
 //		Free
@@ -148,5 +182,6 @@ int				ft_strcmp(char *s1, char *s2);
 char			*ft_strtok(char *str, const char delim);
 void			ft_charncat(char *dest, const char src);
 char			*ft_strncat(char *s1, const char *s2, size_t n);
+void			ft_bzero2(void *s, size_t n, void *s1, size_t n1);
 
 #endif

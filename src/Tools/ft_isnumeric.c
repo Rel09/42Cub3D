@@ -6,14 +6,14 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 18:27:10 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/23 18:33:06 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 00:42:44 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
 // Return true if the string is Numeric
-bool ft_isnumeric(char *str)
+bool	ft_isnumeric(char *str)
 {
 	int	i;
 

@@ -13,8 +13,10 @@ FILES = cub3d \
 		src/Tools/draw \
 		src/Tools/math \
 		src/Tools/tiles \
+		src/Tools/minimap \
 		src/Tools/movement \
 		src/Tools/ft_strtok \
+		src/Tools/ft_bzero2 \
 		src/Tools/ft_strcmp \
 		src/Tools/ft_isspace \
 		src/Tools/ft_strncat \
@@ -27,7 +29,10 @@ FILES = cub3d \
 		src/Parsing/readfile \
 		src/Parsing/parsemap \
 		src/Parsing/floodfill \
-		src/Errors/init
+		src/Parsing/cleanmap \
+		src/Errors/init \
+		src/Errors/init0 \
+		src/Errors/init1
 
 CYAN="\033[1;36m"
 GREEN="\033[1;32m"
@@ -58,7 +63,7 @@ makedir:
 	@mkdir -p ./obj/src/Errors
 
 run: all
-	@./$(NAME) ./src/Maps/bozo.cub
+	@./$(NAME) ./src/Maps/hello.cub
 
 $(OBJS_DIR)%.o: %.c
 	@${CC} ${FLAGS} ${CFLAGS} -c $< -o $@

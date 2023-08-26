@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tiles.c                                            :+:      :+:    :+:   */
+/*   init1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 23:27:02 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
+/*   Created: 2023/08/25 22:55:51 by dpotvin           #+#    #+#             */
+/*   Updated: 2023/08/26 00:38:01 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-// Return true if Tile is valid
-bool	isvalidtile(s_coord coord)
+bool	readfile_error_5(void)
 {
-	int	mapx;
-	int	mapy;
+	printf("[-] Error\n[-] Tester is crazy - Fix brain\n");
+	return (false);
+}
 
-	mapx = coord.x;
-	mapy = coord.y;
-	if (mapx >= 0 && mapx < game()->map_x && mapy >= 0
-		&& mapy < game()->map_y)
-	{
-		if (game()->nmap[mapy][mapx] == 0)
-			return (true);
-	}
+bool	readfile_error_6(void)
+{
+	printf("[-] Error\n[-] Couldnt Malloc the Map [0]\n");
 	return (false);
 }
