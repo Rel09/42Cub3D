@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 20:11:26 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 00:46:43 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/27 01:03:31 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 uint32_t	rgba_to_pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	return ((r << 24) | (g << 16) | (b << 8) | a);
 }
 
 // dumb error from norminette -.-

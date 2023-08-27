@@ -62,8 +62,11 @@ makedir:
 	@mkdir -p ./obj/src/Parsing
 	@mkdir -p ./obj/src/Errors
 
+#
+#      EDIT HERE TO CHANGE MAP
+#
 run: all
-	@./$(NAME) ./src/Maps/hello.cub
+	@./$(NAME) ./src/Maps/test0.cub
 
 $(OBJS_DIR)%.o: %.c
 	@${CC} ${FLAGS} ${CFLAGS} -c $< -o $@
@@ -90,7 +93,7 @@ fclean:
 re: fclean all
 
 leak: all
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./src/Maps/bozo.cub
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./src/Maps/test1.cub
 	@${RM} -r cub3d.dSYM
 
 .PHONY: all clean fclean re lib run leak

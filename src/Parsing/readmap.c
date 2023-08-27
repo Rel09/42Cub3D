@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 21:16:42 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/27 01:18:20 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,22 @@
 static char	*cleaned_up_file(char *map)
 {
 	int	i;
-	int	index;
 
 	i = 0;
-	index = 0;
 	while (map[i])
 	{
-		if (map[i] == '\n')
-			index = i + 1;
 		if (ft_iskeyword(&map[i]))
 		{
-			while (map[index] && map[index] != '\n')
-				index++;
-			if (map[index] == '\n')
-				map = &map[index + 1];
+			while (map[i] && map[i] != '\n')
+				i++;
+			if (map[i] == '\n')
+				map = &map[i + 1];
 			else
-				map = &map[index];
+				map = &map[i];
+			i = 0;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (map);
 }
@@ -97,13 +95,8 @@ bool	readmap(char *mapcontent)
 {
 	mapcontent = cleaned_up_file(mapcontent);
 	mapcontent = remove_empty_lines(mapcontent);
-	game()->map_x = get_map_row(mapcontent) + 2;
-	game()->map_y = get_map_height(mapcontent) + 2;
-	(game()->nmap) = allocate_map(game()->map_y,
-			game()->map_x);
-	if (!game()->nmap)
+	if (!replacetabswithspaces(mapcontent) || !game()->nmap)
 		return (false);
-	convert_map(mapcontent);
 	if (!detail_parser())
 	{
 		printf("[-] Error\n[-] Spawning point is shit / Garbage in Map\n");

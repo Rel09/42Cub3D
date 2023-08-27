@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 02:20:27 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 03:01:24 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 23:24:30 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ bool	detail_parser(void)
 		{
 			if (map[i[0]][i[1]] >= 2 && map[i[0]][i[1]] <= 5)
 			{
-				unit()->Coord.x = i[1];
-				unit()->Coord.y = i[0];
+				(unit()->coord) = (t_coord){i[1], i[0]};
+				setplayerangle(map[i[0]][i[1]]);
 				game()->nmap[i[0]][i[1]] = 0;
 				i[2]++;
 			}
@@ -86,18 +86,18 @@ bool	can_map_be_flooded(void)
 	uint8_t	**map;
 
 	map = game()->nmap;
-	floodfill(map, 7, unit()->Coord.y, unit()->Coord.x);
+	floodfill(map, 7, unit()->coord.y, unit()->coord.x);
 	if (map[0][0] == 7)
 	{
 		display_map(map, game()->map_y, game()->map_x);
 		printf("[-] Error\n[-] Map Failed FloodFill Test\n");
 		return (true);
 	}
-	floodfill(map, 0, unit()->Coord.y, unit()->Coord.x);
+	floodfill(map, 0, unit()->coord.y, unit()->coord.x);
 	display_map(map, game()->map_y, game()->map_x);
-	floodfill(map, 7, unit()->Coord.y, unit()->Coord.x);
+	floodfill(map, 7, unit()->coord.y, unit()->coord.x);
 	illuminatifloodfill();
-	floodfill(map, 0, unit()->Coord.y, unit()->Coord.x);
+	floodfill(map, 0, unit()->coord.y, unit()->coord.x);
 	return (false);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:39:34 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 02:49:53 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 22:49:31 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Game Loop
 void	gameloop(void)
 {
-	movePlayer();
+	moveplayer();
 	raycasting();
 	draw_minimap();
 	drawplayer();

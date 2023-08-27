@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 01:46:34 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 03:01:24 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/26 22:55:07 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	drawminimapbackground(void)
 			}
 			num[4] = num[3] * num[0];
 			num[5] = num[2] * num[1];
-			drawSquare(num[4], num[5], num[0], num[1]);
+			drawsquare(num[4], num[5], num[0], num[1]);
 			num[3]++;
 		}
 		num[2]++;
@@ -71,8 +71,8 @@ static void	drawline(void)
 	num[1] = degreetoradians(unit()->angle);
 	num[2] = (WIDTH) / (4 * game()->map_x);
 	num[3] = (HEIGHT) / (4 * game()->map_y);
-	num[4] = unit()->Coord.x * num[2];
-	num[5] = unit()->Coord.y * num[3];
+	num[4] = unit()->coord.x * num[2];
+	num[5] = unit()->coord.y * num[3];
 	num[6] = num[4] + num[0] * cos(num[1]);
 	num[7] = num[5] + num[0] * sin(num[1]);
 	drawline_onminimap(num[4], num[5], num[6], num[7]);
@@ -101,8 +101,8 @@ void	drawplayer(void)
 	int		a[2];
 	float	b[4];
 
-	b[0] = (unit()->Coord.x) * ((WIDTH) / (4 * game()->map_x));
-	b[1] = (unit()->Coord.y) * ((HEIGHT) / (4 * game()->map_y));
+	b[0] = (unit()->coord.x) * ((WIDTH) / (4 * game()->map_x));
+	b[1] = (unit()->coord.y) * ((HEIGHT) / (4 * game()->map_y));
 	a[0] = -5;
 	while (a[0] <= 5)
 	{

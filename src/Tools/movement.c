@@ -6,93 +6,91 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 23:26:59 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 03:01:24 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/27 00:51:48 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-// Why not
-bool	isKeyDown(int key)
+bool	iskeydown(int key)
 {
 	return (mlx_is_key_down(game()->mlx, key));
 }
 
-
-void movePlayer()
+static void	move(float dx, float dy, float movs, bool a)
 {
-    unit()->movementSpeed = 5.0;
-    float deltaTime = game()->mlx->delta_time;
-    float angleRad = unit()->angle * (M_PI / 180.0);
-    float movementSpeed = unit()->movementSpeed * deltaTime;
-    float dx = cos(angleRad);
-    float dy = sin(angleRad);
-        
-    // Move Forward
-    if (isKeyDown(MLX_KEY_W))
-    {
-        float newXFloat = unit()->Coord.x + dx * movementSpeed;
-        float newYFloat = unit()->Coord.y + dy * movementSpeed;
-        if (isvalidtile((s_coord){newXFloat, newYFloat}))
-        {
-            unit()->Coord.x = newXFloat;
-            unit()->Coord.y = newYFloat;
-        }
-    }
-    
-    // Move Backward
-    else if (isKeyDown(MLX_KEY_S))
-    {
-        float newXFloat = unit()->Coord.x - dx * movementSpeed;
-        float newYFloat = unit()->Coord.y - dy * movementSpeed;
-        if (isvalidtile((s_coord){newXFloat, newYFloat}))
-        {
-            unit()->Coord.x = newXFloat;
-            unit()->Coord.y = newYFloat;
-        }
-    }
-    
-    // Strafe Left
-    if (isKeyDown(MLX_KEY_D))
-    {
-        // Calculate the strafe direction by rotating 90 degrees to the left.
-        float strafeAngleRad = angleRad - (M_PI / 2.0);
-        float newXFloat = unit()->Coord.x + cos(strafeAngleRad) * unit()->movementSpeed * deltaTime;
-        float newYFloat = unit()->Coord.y + sin(strafeAngleRad) * unit()->movementSpeed * deltaTime;
-        if (isvalidtile((s_coord){newXFloat, newYFloat}))
-        {
-            unit()->Coord.x = newXFloat;
-            unit()->Coord.y = newYFloat;
-        }
-    }
+	float	x;
+	float	y;
 
-    // Strafe Right
-    else if (isKeyDown(MLX_KEY_A))
-    {
-        // Calculate the strafe direction by rotating 90 degrees to the right.
-        float strafeAngleRad = angleRad + (M_PI / 2.0);
-        float newXFloat = unit()->Coord.x + cos(strafeAngleRad) * unit()->movementSpeed * deltaTime;
-        float newYFloat = unit()->Coord.y + sin(strafeAngleRad) * unit()->movementSpeed * deltaTime;
-        if (isvalidtile((s_coord){newXFloat, newYFloat}))
-        {
-            unit()->Coord.x = newXFloat;
-            unit()->Coord.y = newYFloat;
-        }
-    }
-	
+	if (a)
+	{
+		x = unit()->coord.x + dx * movs;
+		y = unit()->coord.y + dy * movs;
+	}
+	else
+	{
+		x = unit()->coord.x - dx * movs;
+		y = unit()->coord.y - dy * movs;
+	}
+	if (isvalidtile((t_coord){x, y}))
+	{
+		unit()->coord.x = x;
+		unit()->coord.y = y;
+	}
+}
 
-    // Left rotation
-    if (isKeyDown(MLX_KEY_RIGHT))
-    {
-        unit()->angle -= unit()->rotationSpeed * deltaTime;
-        unit()->angle = fmodf(unit()->angle, 360.0f);
-    }
+static void	strafe(float anglerad, float delta, bool a)
+{
+	float	strafedir;
+	float	x;
+	float	y;
 
-    // Right rotation
-    else if (isKeyDown(MLX_KEY_LEFT))
-    {
-        unit()->angle += unit()->rotationSpeed * deltaTime;
-        unit()->angle = fmodf(unit()->angle, 360.0f);  
-    }
+	if (a)
+		strafedir = anglerad - (M_PI / 2.0);
+	else
+		strafedir = anglerad + (M_PI / 2.0);
+	x = unit()->coord.x + cos(strafedir) * 5.0 * delta;
+	y = unit()->coord.y + sin(strafedir) * 5.0 * delta;
+	if (isvalidtile((t_coord){x, y}))
+	{
+		unit()->coord.x = x;
+		unit()->coord.y = y;
+	}
+}
 
+static void	rotate(float delta, bool a)
+{
+	if (a)
+		unit()->angle -= unit()->rotationspeed * delta;
+	else
+		unit()->angle += unit()->rotationspeed * delta;
+	(unit()->angle) = fmodf(unit()->angle, 360.0f);
+}
+
+void	moveplayer(void)
+{
+	float	a[5];
+
+	a[0] = game()->mlx->delta_time;
+	a[1] = unit()->angle * (M_PI / 180.0);
+	a[2] = 5.0 * a[0];
+	a[3] = cos(a[1]);
+	a[4] = sin(a[1]);
+	if (iskeydown(MLX_KEY_ESCAPE))
+	{
+		free_everything();
+		exit(0);
+	}
+	if (iskeydown(MLX_KEY_W))
+		move(a[3], a[4], a[2], true);
+	else if (iskeydown(MLX_KEY_S))
+		move(a[3], a[4], a[2], false);
+	if (iskeydown(MLX_KEY_D))
+		strafe(a[1], a[0], true);
+	else if (iskeydown(MLX_KEY_A))
+		strafe(a[1], a[0], false);
+	if (iskeydown(MLX_KEY_RIGHT))
+		rotate(a[0], true);
+	else if (iskeydown(MLX_KEY_LEFT))
+		rotate(a[0], false);
 }
