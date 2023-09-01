@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 21:40:55 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/26 02:57:13 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/31 19:58:08 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	read_rgb_color(void)
 		temp = ft_strtok(game()->s_mapfile.rgb_color[i], ',');
 		while (temp)
 		{
-			if (count > 2 || !ft_isnumeric(temp))
+			if (count > 2 || !ft_isnumeric(temp) || ft_strlen(temp) > 3)
 				return (readfile_error_4(count, temp));
 			num[count] = ft_atoi(temp);
 			if (num[count] < 0 || num[count] > 255)

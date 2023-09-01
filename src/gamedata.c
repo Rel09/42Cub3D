@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:26:48 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/27 00:33:02 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/08/31 19:59:49 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ t_gamedata	*game(void)
 		if (!t->mlx)
 		{
 			printf("Couldnt Init MLX\n");
+			free_everything();
 			exit(1);
 		}
 		t->img = mlx_new_image(t->mlx, WIDTH, HEIGHT);
 		if (!t->img)
 		{
 			printf("Couldnt Init MLX->IMG\n");
-			mlx_terminate(t->mlx);
+			free_everything();
 			exit(1);
 		}
 		mlx_image_to_window(t->mlx, t->img, 0, 0);
