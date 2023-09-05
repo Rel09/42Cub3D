@@ -93,7 +93,7 @@ fclean:
 re: fclean all
 
 leak: all
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) ./src/Maps/test1.cub
+	@leaks -atExit -- ./cub3d ./src/Maps/test0.cub
 	@${RM} -r cub3d.dSYM
 
 .PHONY: all clean fclean re lib run leak
