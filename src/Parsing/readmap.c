@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 21:16:42 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/18 21:07:40 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:40:04 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,29 @@ static char	*cleaned_up_file(char *map)
 static char	*remove_empty_lines(char *map)
 {
 	char	temp[1000];
-	int		i;
-	int		count;
+	int		i[2];
 
-	i = 0;
-	count = 0;
-	if (!map[i])
+	i[0] = 0;
+	i[1] = 0;
+	if (!map[i[0]])
 		return (0);
-
-	while (!count)
+	while (!i[1])
 	{
-		parse_mapfile0(map, temp, &i, &count);
-		if (!count)
+		parse_mapfile0(map, temp, &i[0], &i[1]);
+		if (!i[1])
 		{
-			map = &map[i];
-			i = 0;
+			map = &map[i[0]];
+			i[0] = 0;
 		}
-		if (!map[i])
-			break;
+		if (!map[i[0]])
+			break ;
 	}
-
-	while (count > 0)
+	while (i[1] > 0)
 	{
-		if (!parse_mapfile1(map, temp, &i, &count))
+		if (!parse_mapfile1(map, temp, &i[0], &i[1]))
 			return (0);
 	}
-	
-	map[i - 1] = 0;
+	map[i[0] - 1] = 0;
 	return (map);
 }
 
@@ -103,7 +99,6 @@ bool	readmap(char *mapcontent)
 {
 	mapcontent = cleaned_up_file(mapcontent);
 	mapcontent = remove_empty_lines(mapcontent);
-
 	if (!mapcontent)
 	{
 		printf("[-] Error\n[-] No Map in file\n");
@@ -119,6 +114,5 @@ bool	readmap(char *mapcontent)
 	if (can_map_be_flooded())
 		return (false);
 	printf(BLACK_BG PINK_TEXT"[+] Map Loaded\x1B[0m\n");
-
 	return (true);
 }

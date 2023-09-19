@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 00:19:47 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/18 21:08:11 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:31:52 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,16 @@ void	parse_mapfile0(char *map, char *temp, int *index, int *count)
 bool	parse_mapfile1(char *map, char *temp, int *index, int *count)
 {
 	ft_bzero(temp, 1000);
-	printf("[%i %i]\n", *index, *count);
+	printf("Starting at [%i]\n", *index);
 	while (map[*index] && map[*index] != '\n')
 	{
-		ft_charncat(temp, map[*index]);
-		(*index)++;
-		printf("[%i %i]\n", *index, *count);
-		if (*index >= 999)
+		if (ft_strlen(temp) >= 999)
 		{
-			printf("[-] Error\n[-] Map way too large -> Returning Empty map\n");
+			printf("[-] Error\n[-] Map too large -> Returning empty map\n");
 			return (false);
 		}
+		ft_charncat(temp, map[*index]);
+		(*index)++;
 	}
 	(*index)++;
 	*count = count_char(temp);

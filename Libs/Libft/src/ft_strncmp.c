@@ -6,14 +6,14 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:48:01 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/22 02:50:15 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:40:53 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_strncmp(const char *s1, const char *s2, int n)
 {
 	int	i;
-	
+
 	i = 0;
 	if (n == 0)
 		return (0);

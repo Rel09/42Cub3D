@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 23:27:02 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/18 18:15:16 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:40:17 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool	replacetabswithspaces(char *input)
 {
 	char	*output;
 	int		a[3];
-	
+
 	output = malloc(strlen(input) * TABSIZE + 1);
 	if (!output)
 		return (false);

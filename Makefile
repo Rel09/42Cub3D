@@ -66,8 +66,10 @@ makedir:
 #      EDIT HERE TO CHANGE MAP
 #
 run: all
-	@./$(NAME) ./src/Maps/a.cub
-
+	@./$(NAME) ./src/Maps/test2.cub
+#
+#
+#
 $(OBJS_DIR)%.o: %.c
 	@${CC} ${FLAGS} ${CFLAGS} -c $< -o $@
 	@echo $(CYAN)[-] [Cub3D] Compiling: $<$(ENDCOLOR)
