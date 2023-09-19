@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 21:30:50 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/27 00:49:08 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/18 20:39:35 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ bool			add_to_data(char *data, char *keyword);
 void			display_map(uint8_t **map, int y, int x);
 bool			is_file_format_supported(char *map, char *format);
 void			parse_mapfile0(char *map, char *temp, int *index, int *count);
-void			parse_mapfile1(char *map, char *temp, int *index, int *count);
+bool			parse_mapfile1(char *map, char *temp, int *index, int *count);
 //		Errors
 bool			argc_isbad(int argv);
 bool			readfile_error_0(void);
@@ -144,6 +144,7 @@ bool			readfile_error_3(void);
 bool			readfile_error_4(int count, char *temp);
 bool			readfile_error_5(void);
 bool			readfile_error_6(void);
+bool			readfile_error_7(char *mapcontent);
 bool			open_png_error_0(void);
 bool			open_png_error_1(void);
 bool			open_png_error_2(char *str);

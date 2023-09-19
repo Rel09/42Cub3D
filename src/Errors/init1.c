@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 22:55:51 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/08/31 20:16:26 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/18 20:21:15 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ void	free_everything(void)
 	ft_bzero(game(), sizeof(t_gamedata));
 	ft_bzero(gettexture(), sizeof(t_texture));
 	printf(BLACK_BG PINK_TEXT "[+] Goodbye\x1B[0m\n");
+}
+
+bool	readfile_error_7(char *mapcontent)
+{
+	if (!mapcontent)
+	{
+		printf("[-] Error\n[-] Bad Map File\n");
+		return (false);
+	}
+	return (true);
 }

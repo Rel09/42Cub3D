@@ -66,7 +66,7 @@ makedir:
 #      EDIT HERE TO CHANGE MAP
 #
 run: all
-	@./$(NAME) ./src/Maps/test0.cub
+	@./$(NAME) ./src/Maps/a.cub
 
 $(OBJS_DIR)%.o: %.c
 	@${CC} ${FLAGS} ${CFLAGS} -c $< -o $@
