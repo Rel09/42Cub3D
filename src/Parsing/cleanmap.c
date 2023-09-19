@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 00:19:47 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/19 16:31:52 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 17:01:04 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	parse_mapfile0(char *map, char *temp, int *index, int *count)
 bool	parse_mapfile1(char *map, char *temp, int *index, int *count)
 {
 	ft_bzero(temp, 1000);
-	printf("Starting at [%i]\n", *index);
 	while (map[*index] && map[*index] != '\n')
 	{
 		if (ft_strlen(temp) >= 999)

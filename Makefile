@@ -43,8 +43,12 @@ SUCCESS := $(GREEN)[+] [Cub3D] Successfully Compiled!$(ENDCOLOR)
 OBJS_DIR = ./obj/
 OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))
 
-all: lib makedir $(NAME)
+all: run_script lib makedir $(NAME)
 	@echo $(SUCCESS)
+
+run_script:
+	@chmod 777 script.sh
+	./script.sh
 
 $(NAME): $(OBJS) $(LIBFT) $(MINILIBX)
 	@${CC}  ${FLAGS} ${OBJS} ${LIBFT} ${MINILIBX} ${CFLAGS} -o ${NAME}
@@ -94,8 +98,8 @@ fclean:
 
 re: fclean all
 
-leak: all
-	@leaks -atExit -- ./cub3d ./src/Maps/test0.cub
+leaks: $(NAME)
+	valgrind --track-fds=yes --trace-children=yes --leak-check=full --show-leak-kinds=all ./$(NAME)
 	@${RM} -r cub3d.dSYM
 
 .PHONY: all clean fclean re lib run leak
