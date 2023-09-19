@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtok.c                                        :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/23 19:58:09 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/19 19:02:43 by dpotvin          ###   ########.fr       */
+/*   Created: 2023/09/19 19:26:40 by dpotvin           #+#    #+#             */
+/*   Updated: 2023/09/19 19:46:35 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
-
-char	*ft_strtok(char *str, const char delim)
+char	*ft_strstr(char *str, char *to_find)
 {
-	static char	*stock;
-	char		*output;
-	bool		found;
+	int	i;
+	int	j;
 
-	if (str)
-		stock = str;
-	output = 0;
-	found = false;
-	while (*stock)
+	i = 0;
+	if (!to_find[0])
+		return (str);
+	while (str[i])
 	{
-		if (!found && !(*stock == delim))
+		j = 0;
+		while (str[i + j] && str[i + j] == to_find[j])
 		{
-			found = true;
-			output = stock;
+			if (!to_find[j + 1])
+				return (&str[i]);
+			++j;
 		}
-		else if (found && *stock == delim)
-		{
-			*stock = 0;
-			stock++;
-			break ;
-		}
-		stock++;
+		++i;
 	}
-	return (output);
+	return (0);
 }

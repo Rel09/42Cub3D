@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 21:30:50 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/18 20:39:35 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:47:18 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ bool			readfile_error_4(int count, char *temp);
 bool			readfile_error_5(void);
 bool			readfile_error_6(void);
 bool			readfile_error_7(char *mapcontent);
+bool			readfile_error_8(void);
 bool			open_png_error_0(void);
 bool			open_png_error_1(void);
 bool			open_png_error_2(char *str);
@@ -173,6 +174,7 @@ bool			ft_isspace(char c);
 bool			ft_isnumeric(char *str);
 uint8_t			ft_iskeyword(char *str);
 int				ft_strcmp(char *s1, char *s2);
+char			*ft_strstr(char *str, char *to_find);
 char			*ft_strtok(char *str, const char delim);
 void			ft_charncat(char *dest, const char src);
 char			*ft_strncat(char *s1, const char *s2, size_t n);

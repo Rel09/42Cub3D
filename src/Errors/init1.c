@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 22:55:51 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/18 20:21:15 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:48:40 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,29 @@ bool	readfile_error_7(char *mapcontent)
 	{
 		printf("[-] Error\n[-] Bad Map File\n");
 		return (false);
+	}
+	else if (!ft_strstr(mapcontent, ","))
+	{
+		printf("[-] Error\n[-] Wrong Map Input\n");
+		return (false);
+	}
+	return (true);
+}
+
+// Make sure we actually have RGB Value
+bool	readfile_error_8(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		if (!game()->s_mapfile.rgb_color[i])
+		{
+			printf("[-] Error\n[-] Couldn't read RGB Inputs\n");
+			return (false);
+		}
+		i++;
 	}
 	return (true);
 }

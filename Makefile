@@ -15,6 +15,7 @@ FILES = cub3d \
 		src/Tools/tiles \
 		src/Tools/minimap \
 		src/Tools/movement \
+		src/Tools/ft_strstr \
 		src/Tools/ft_strtok \
 		src/Tools/ft_bzero2 \
 		src/Tools/ft_strcmp \
@@ -70,7 +71,7 @@ makedir:
 #      EDIT HERE TO CHANGE MAP
 #
 run: all
-	@./$(NAME) ./src/Maps/test2.cub
+	@./$(NAME) ./src/Maps/a.cub
 #
 #
 #

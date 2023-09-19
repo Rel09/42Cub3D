@@ -5,7 +5,7 @@ EA 					./src/Textu				res/E.png
 WE ./src/Tex				tures/W.png
 
 			NO ./src/					Textures/N.png
-				F 					0	,1	57,	255
+				F 					0 ,1	57,	255
 		C    0,   				30,   0
 
 111111111111111111111

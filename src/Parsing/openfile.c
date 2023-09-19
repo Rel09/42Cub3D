@@ -6,7 +6,7 @@
 /*   By: dpotvin <dpotvin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 02:21:07 by dpotvin           #+#    #+#             */
-/*   Updated: 2023/09/18 20:27:58 by dpotvin          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:45:50 by dpotvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	map_isbad(char *map)
 	}
 	mapcontent = open_file(map);
 	if (!readfile_error_7(mapcontent) || !readfile(mapcontent) 
-		|| !read_rgb_color() || !open_png_files()
+		|| !readfile_error_8() || !read_rgb_color() || !open_png_files()
 		|| !readmap(mapcontent))
 	{
 		free(mapcontent);
