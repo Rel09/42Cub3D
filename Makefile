@@ -71,7 +71,7 @@ makedir:
 #      EDIT HERE TO CHANGE MAP
 #
 run: all
-	@./$(NAME) ./src/Maps/a.cub
+	@./$(NAME) ./src/Maps/test0.cub
 #
 #
 #
